@@ -76,24 +76,23 @@ const map = new SourceMap();
 
 ### Types
 
-```ts
-PathMap {
-    [path: string]: {
-        line: number;
-        position: number;
-        lineStart: number;
-    };
+```typescript
+interface PathMap {
+  [path: string]: {
+    line: number;
+    position: number;
+    lineStart: number;
+  };
 }
 
-SourceLocation {
-    line: number;
-    column: number;
-    position: number;
+interface SourceLocation {
+  line: number;
+  column: number;
+  position: number;
 }
 ```
 
 ## Limitations
 
 - This library does not work with multi-document sources and `yaml.loadAll()`. Using it with `yaml.loadAll()` will result in undefined behavior.
-- Using `Date`s as keys is not properly supported. To use Dates as keys, you may need to switch to the `FAILSAFE_SCHEMA`.
-- Using arrays or objects as keys will not work.
+- Using arrays or objects as keys will not work properly, and will result in undefined behavior.
