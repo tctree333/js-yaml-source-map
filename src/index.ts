@@ -44,6 +44,10 @@ class SourceMap {
 
   // recursively pushes information to the path map
   private resolveNode(fragment: Fragment, path: string): void {
+    // if fragment is already at the root, don't prepend stuff
+    if (fragment.path === ".") {
+      path = ".";
+    }
     // if the path is already in the map, we don't override it
     if (!this._map[path]) {
       const { line, position, lineStart } = fragment;
@@ -52,7 +56,7 @@ class SourceMap {
     // if there are children, we recursively resolve them
     if (fragment.children && fragment.children.length > 0) {
       fragment.children.forEach((child) => {
-        this.resolveNode(child, path + "." + child.path);
+        this.resolveNode(child, (path === "." ? "" : path) + "." + child.path);
       });
     }
   }
@@ -159,7 +163,9 @@ class SourceMap {
             newFragment.lineStart = fragment.lineStart;
           }
         });
-        this._fragments.push(newFragment);
+        if (newFragment.children && newFragment.children.length > 0) {
+          this._fragments.push(newFragment);
+        }
 
         this._path.pop();
       } else if (kind === "sequence") {
@@ -203,7 +209,9 @@ class SourceMap {
             newFragment.lineStart = fragment.lineStart;
           }
         });
-        this._fragments.push(newFragment);
+        if (newFragment.children && newFragment.children.length > 0) {
+          this._fragments.push(newFragment);
+        }
 
         this._path.pop();
       } else {
