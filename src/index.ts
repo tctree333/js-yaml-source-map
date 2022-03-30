@@ -99,7 +99,7 @@ class SourceMap {
         this._path.pop();
 
         // save the scalar for later, since it's not junk
-        this._lastScalar = result as string;
+        this._lastScalar = `${result as string}`;
 
         const { line, position, lineStart } = state;
         if (this._path.length === 0) {
@@ -233,7 +233,8 @@ class SourceMap {
   }
 
   public lookup(path: string | string[]): SourceLocation | undefined {
-    let pathName = typeof path === "string" ? path : path.join(".");
+    let pathName =
+      path instanceof Array ? path.map((f) => `${f}`).join(".") : `${path}`;
     if (!pathName.startsWith(".")) {
       // add leading dot if not present
       pathName = "." + pathName;
