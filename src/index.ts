@@ -137,11 +137,11 @@ class SourceMap {
         // and we can count up, even though we're looping backwards.
         let index = 0;
         this.iterFragments(pathName, (fragment) => {
+          index++;
           // always keep non-primitive fragments
           if (!fragment.children || fragment.children.length === 0) {
             // some fragments might be values, not keys.
             // keys will have an even index since we loop backwards, start at 0, and increment before checking.
-            index++;
             if (index % 2 === 1) {
               // discard odd indices, they're values
               return;
