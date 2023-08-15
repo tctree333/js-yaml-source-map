@@ -98,7 +98,7 @@ class SourceMap {
       const pathName = this._path.join(".");
 
       // scalar typse are primitives (non maps/arrays)
-      if (kind === "scalar") {
+      if (kind === "scalar" || kind === null) {
         // we need to pop the path before computing things for scalars
         this._path.pop();
 
